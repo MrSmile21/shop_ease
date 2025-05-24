@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gcm_defaultSenderId" translatable="false">181885205222</string>
+    <string name="google_api_key" translatable="false">AIzaSyACV8PRo5Zo1Kpflt8Cysl2GNJQzmQrpGw</string>
+    <string name="google_app_id" translatable="false">1:181885205222:android:f47e89c908b14a4e72d927</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyACV8PRo5Zo1Kpflt8Cysl2GNJQzmQrpGw</string>
+    <string name="google_storage_bucket" translatable="false">shop-ease-d8eb1.firebasestorage.app</string>
+    <string name="project_id" translatable="false">shop-ease-d8eb1</string>
+</resources>

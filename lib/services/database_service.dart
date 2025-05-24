@@ -1,25 +1,62 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../models/shopping_list.dart';
+import '../models/budget.dart';
 
 class DatabaseService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // Add a shopping list to Firestore
-  Future<void> addShoppingList(Map<String, dynamic> listData) async {
-    await _firestore.collection('shoppingLists').add(listData);
+  // Shopping List Operations
+  Future<String> addShoppingList(ShoppingList list) async {
+    final docRef =
+        await _firestore.collection('shoppingLists').add(list.toMap());
+    return docRef.id;
   }
 
-  // Fetch all shopping lists
-  Stream<QuerySnapshot> getShoppingLists() {
-    return _firestore.collection('shoppingLists').snapshots();
+  Stream<List<ShoppingList>> getShoppingLists() {
+    return _firestore
+        .collection('shoppingLists')
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => ShoppingList.fromMap(doc.data(), doc.id))
+            .toList());
   }
 
-  // Update a shopping list
-  Future<void> updateShoppingList(String id, Map<String, dynamic> updatedData) async {
-    await _firestore.collection('shoppingLists').doc(id).update(updatedData);
+  Future<void> updateShoppingList(ShoppingList list) async {
+    await _firestore
+        .collection('shoppingLists')
+        .doc(list.id)
+        .update(list.toMap());
   }
 
-  // Delete a shopping list
   Future<void> deleteShoppingList(String id) async {
     await _firestore.collection('shoppingLists').doc(id).delete();
+  }
+
+  // Budget Operations
+  Future<String> addBudget(Budget budget) async {
+    final docRef = await _firestore.collection('budgets').add(budget.toMap());
+    return docRef.id;
+  }
+
+  Stream<List<Budget>> getBudgets() {
+    return _firestore
+        .collection('budgets')
+        .orderBy('startDate', descending: true)
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => Budget.fromMap(doc.data(), doc.id))
+            .toList());
+  }
+
+  Future<void> updateBudget(Budget budget) async {
+    await _firestore
+        .collection('budgets')
+        .doc(budget.id)
+        .update(budget.toMap());
+  }
+
+  Future<void> deleteBudget(String id) async {
+    await _firestore.collection('budgets').doc(id).delete();
   }
 }
